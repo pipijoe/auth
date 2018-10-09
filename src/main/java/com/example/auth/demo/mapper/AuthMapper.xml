@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="center.mapper.AuthMapper">
+    <select id="findByUsername" resultType="center.domain.auth.User">
+        SELECT id, name, password from sys_user where name = #{name};
+    </select>
+
+    <insert id="insert" parameterType="center.domain.auth.User" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user (name, password) VALUES (#{user.username}, #{user.password});
+    </insert>
+
+    <insert id="insertRole">
+        insert into sys_user_role (user_id, role_id) VALUES (#{userId}, #{roleId});
+    </insert>
+
+    <select id="findRoleById" resultType="center.domain.auth.Role">
+      select id, name, nameZh from sys_role where id = #{roleId}
+    </select>
+
+    <select id="findRoleByUserId" resultType="center.domain.auth.Role">
+        select * from sys_role where id in (SELECT role_id from sys_user_role where user_id = #{userId});
+    </select>
+</mapper>
