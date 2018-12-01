@@ -4,7 +4,7 @@ import com.example.auth.demo.domain.ResultCode;
 import com.example.auth.demo.domain.ResultJson;
 import com.example.auth.demo.domain.auth.ResponseUserToken;
 import com.example.auth.demo.domain.auth.Role;
-import com.example.auth.demo.domain.auth.User;
+import com.example.auth.demo.domain.auth.UserDetail;
 import com.example.auth.demo.exception.CustomException;
 import com.example.auth.demo.mapper.AuthMapper;
 import com.example.auth.demo.utils.JWTUtils;
@@ -46,21 +46,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User register(User user) {
-        final String username = user.getUsername();
+    public UserDetail register(UserDetail userDetail) {
+        final String username = userDetail.getUsername();
         if(authMapper.findByUsername(username)!=null) {
             return null;
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        final String rawPassword = user.getPassword();
-        user.setPassword(encoder.encode(rawPassword));
-        user.setLastPasswordResetDate(new Date());
-        authMapper.insert(user);
-        long roleId = user.getRole().getId();
+        final String rawPassword = userDetail.getPassword();
+        userDetail.setPassword(encoder.encode(rawPassword));
+        userDetail.setLastPasswordResetDate(new Date());
+        authMapper.insert(userDetail);
+        long roleId = userDetail.getRole().getId();
         Role role = authMapper.findRoleById(roleId);
-        user.setRole(role);
-        authMapper.insertRole(user.getId(), roleId);
-        return user;
+        userDetail.setRole(role);
+        authMapper.insertRole(userDetail.getId(), roleId);
+        return userDetail;
     }
 
     @Override
@@ -70,12 +70,12 @@ public class AuthServiceImpl implements AuthService {
         //存储认证信息
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成token
-        final User user = (User) authentication.getPrincipal();
-//        User user = (User) userDetailsService.loadUserByUsername(username);
-        final String token = jwtTokenUtil.generateAccessToken(user);
+        final UserDetail userDetail = (UserDetail) authentication.getPrincipal();
+//        UserDetail userDetail = (UserDetail) userDetailsService.loadUserByUsername(username);
+        final String token = jwtTokenUtil.generateAccessToken(userDetail);
         //存储token
         jwtTokenUtil.putToken(username, token);
-        return new ResponseUserToken(token, user);
+        return new ResponseUserToken(token, userDetail);
 
     }
 
@@ -90,16 +90,16 @@ public class AuthServiceImpl implements AuthService {
     public ResponseUserToken refresh(String oldToken) {
         String token = oldToken.substring(tokenHead.length());
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        User user = (User) userDetailsService.loadUserByUsername(username);
-        if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())){
+        UserDetail userDetail = (UserDetail) userDetailsService.loadUserByUsername(username);
+        if (jwtTokenUtil.canTokenBeRefreshed(token, userDetail.getLastPasswordResetDate())){
             token =  jwtTokenUtil.refreshToken(token);
-            return new ResponseUserToken(token, user);
+            return new ResponseUserToken(token, userDetail);
         }
         return null;
     }
 
     @Override
-    public User getUserByToken(String token) {
+    public UserDetail getUserByToken(String token) {
         token = token.substring(tokenHead.length());
         return jwtTokenUtil.getUserFromToken(token);
     }

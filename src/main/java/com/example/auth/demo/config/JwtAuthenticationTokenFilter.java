@@ -1,6 +1,6 @@
 package com.example.auth.demo.config;
 
-import com.example.auth.demo.domain.auth.User;
+import com.example.auth.demo.domain.auth.UserDetail;
 import com.example.auth.demo.utils.JWTUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,14 +44,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         String username = jwtUtils.getUsernameFromToken(auth_token);
 
-        logger.info(String.format("Checking authentication for user %s.", username));
+        logger.info(String.format("Checking authentication for userDetail %s.", username));
 
         if (jwtUtils.containToken(username, auth_token) && username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            User user = jwtUtils.getUserFromToken(auth_token);
-            if (jwtUtils.validateToken(auth_token, user)) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            UserDetail userDetail = jwtUtils.getUserFromToken(auth_token);
+            if (jwtUtils.validateToken(auth_token, userDetail)) {
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                logger.info(String.format("Authenticated user %s, setting security context", username));
+                logger.info(String.format("Authenticated userDetail %s, setting security context", username));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

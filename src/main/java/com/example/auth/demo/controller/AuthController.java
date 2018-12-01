@@ -2,21 +2,20 @@ package com.example.auth.demo.controller;
 
 import com.example.auth.demo.domain.ResultCode;
 import com.example.auth.demo.domain.ResultJson;
-import com.example.auth.demo.domain.auth.LoginUser;
-import com.example.auth.demo.domain.auth.ResponseUserToken;
+import com.example.auth.demo.domain.auth.Role;
 import com.example.auth.demo.domain.auth.User;
+import com.example.auth.demo.domain.auth.ResponseUserToken;
+import com.example.auth.demo.domain.auth.UserDetail;
 import com.example.auth.demo.service.AuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.solr.common.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,17 +38,16 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @PostMapping(value = "/auth")
+    @PostMapping(value = "/login")
     @ApiOperation(value = "登陆", notes = "登陆成功返回token,测试管理员账号:admin,123456;用户账号：les123,admin")
     public ResultJson<ResponseUserToken> login(
-            @RequestBody LoginUser loginUser){
-        final ResponseUserToken response = authService.login(loginUser.getName(), loginUser.getPassword());
+            @RequestBody User user){
+        final ResponseUserToken response = authService.login(user.getName(), user.getPassword());
         return ResultJson.ok(response);
     }
 
-    @PostMapping(value = "/signout")
+    @GetMapping(value = "/logout")
     @ApiOperation(value = "登出", notes = "退出登陆")
-    @PreAuthorize("hasAnyRole('admin', 'user')")
     @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     public ResultJson logout(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
@@ -60,19 +58,27 @@ public class AuthController {
         return ResultJson.ok();
     }
 
-    @PostMapping(value = "/user")
+    @GetMapping(value = "/user")
     @ApiOperation(value = "根据token获取用户信息", notes = "根据token获取用户信息")
-    @PreAuthorize("hasAnyRole('admin', 'user')")
     @ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     public ResultJson getUser(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         if (token == null) {
             return ResultJson.failure(ResultCode.UNAUTHORIZED);
         }
-        User user = authService.getUserByToken(token);
-        return ResultJson.ok(user);
+        UserDetail userDetail = authService.getUserByToken(token);
+        return ResultJson.ok(userDetail);
     }
 
+    @PostMapping(value = "/sign")
+    @ApiOperation(value = "用户注册")
+    public ResultJson sign(@RequestBody User user) {
+        if (org.apache.commons.lang3.StringUtils.isAnyBlank(user.getName(), user.getPassword())) {
+            return ResultJson.failure(ResultCode.BAD_REQUEST);
+        }
+        UserDetail userDetail = new UserDetail(user.getName(), user.getPassword(), Role.builder().id(1l).build());
+        return ResultJson.ok(authService.register(userDetail));
+    }
 //    @GetMapping(value = "refresh")
 //    @ApiOperation(value = "刷新token")
 //    public ResultJson refreshAndGetAuthenticationToken(

@@ -1,7 +1,7 @@
 package com.example.auth.demo.config;
 
-import center.domain.ResultCode;
-import center.domain.ResultJson;
+import com.example.auth.demo.domain.ResultCode;
+import com.example.auth.demo.domain.ResultJson;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;

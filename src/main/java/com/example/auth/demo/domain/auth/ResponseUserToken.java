@@ -11,5 +11,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class ResponseUserToken {
     private String token;
-    private User user;
+    private UserDetail userDetail;
 }

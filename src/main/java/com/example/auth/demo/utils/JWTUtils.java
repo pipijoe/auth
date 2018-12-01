@@ -1,7 +1,7 @@
 package com.example.auth.demo.utils;
 
 import com.example.auth.demo.domain.auth.Role;
-import com.example.auth.demo.domain.auth.User;
+import com.example.auth.demo.domain.auth.UserDetail;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.Jwts;
@@ -39,19 +39,19 @@ public class JWTUtils {
 
     private final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 
-    public User getUserFromToken(String token) {
-        User user;
+    public UserDetail getUserFromToken(String token) {
+        UserDetail userDetail;
         try {
             final Claims claims = getClaimsFromToken(token);
             long userId = getUserIdFromToken(token);
             String username = claims.getSubject();
             String roleName = claims.get(CLAIM_KEY_AUTHORITIES).toString();
             Role role = Role.builder().name(roleName).build();
-            user = new User(userId, username, role, "");
+            userDetail = new UserDetail(userId, username, role, "");
         } catch (Exception e) {
-            user = null;
+            userDetail = null;
         }
-        return user;
+        return userDetail;
     }
 
     public long getUserIdFromToken(String token) {
@@ -87,10 +87,10 @@ public class JWTUtils {
         return created;
     }
 
-    public String generateAccessToken(User user) {
-        Map<String, Object> claims = generateClaims(user);
-        claims.put(CLAIM_KEY_AUTHORITIES, authoritiesToArray(user.getAuthorities()).get(0));
-        return generateAccessToken(user.getUsername(), claims);
+    public String generateAccessToken(UserDetail userDetail) {
+        Map<String, Object> claims = generateClaims(userDetail);
+        claims.put(CLAIM_KEY_AUTHORITIES, authoritiesToArray(userDetail.getAuthorities()).get(0));
+        return generateAccessToken(userDetail.getUsername(), claims);
     }
 
     public Date getExpirationDateFromToken(String token) {
@@ -123,23 +123,23 @@ public class JWTUtils {
 
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        User user = (User) userDetails;
+        UserDetail userDetail = (UserDetail) userDetails;
         final long userId = getUserIdFromToken(token);
         final String username = getUsernameFromToken(token);
 //        final Date created = getCreatedDateFromToken(token);
-        return (userId == user.getId()
-                && username.equals(user.getUsername())
+        return (userId == userDetail.getId()
+                && username.equals(userDetail.getUsername())
                 && !isTokenExpired(token)
-//                && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())
+//                && !isCreatedBeforeLastPasswordReset(created, userDetail.getLastPasswordResetDate())
         );
     }
 
-    public String generateRefreshToken(User user) {
-        Map<String, Object> claims = generateClaims(user);
+    public String generateRefreshToken(UserDetail userDetail) {
+        Map<String, Object> claims = generateClaims(userDetail);
         // 只授于更新 token 的权限
         String roles[] = new String[]{JWTUtils.ROLE_REFRESH_TOKEN};
         claims.put(CLAIM_KEY_AUTHORITIES, JSONUtil.toJSON(roles));
-        return generateRefreshToken(user.getUsername(), claims);
+        return generateRefreshToken(userDetail.getUsername(), claims);
     }
 
     public void putToken(String userName, String token) {
@@ -182,9 +182,9 @@ public class JWTUtils {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
     }
 
-    private Map<String, Object> generateClaims(User user) {
+    private Map<String, Object> generateClaims(UserDetail userDetail) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USER_ID, user.getId());
+        claims.put(CLAIM_KEY_USER_ID, userDetail.getId());
         return claims;
     }
 

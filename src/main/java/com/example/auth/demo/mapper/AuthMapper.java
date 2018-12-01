@@ -1,7 +1,7 @@
 package com.example.auth.demo.mapper;
 
 import com.example.auth.demo.domain.auth.Role;
-import com.example.auth.demo.domain.auth.User;
+import com.example.auth.demo.domain.auth.UserDetail;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AuthMapper {
-    User findByUsername(@Param("name") String name);
-    void insert(@Param("user") User user);
+    UserDetail findByUsername(@Param("name") String name);
+    void insert(@Param("userDetail") UserDetail userDetail);
     int insertRole(@Param("userId") long userId, @Param("roleId") long roleId);
     Role findRoleById(@Param("roleId") long roleId);
     Role findRoleByUserId(@Param("userId") long userId);

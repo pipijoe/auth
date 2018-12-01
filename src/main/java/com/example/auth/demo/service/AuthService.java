@@ -1,14 +1,14 @@
 package com.example.auth.demo.service;
 
 import com.example.auth.demo.domain.auth.ResponseUserToken;
-import com.example.auth.demo.domain.auth.User;
+import com.example.auth.demo.domain.auth.UserDetail;
 
 /**
  * Author: JoeTao
  * createAt: 2018/9/17
  */
 public interface AuthService {
-    User register(User user);
+    UserDetail register(UserDetail userDetail);
 
     ResponseUserToken login(String username, String password);
 
@@ -16,5 +16,5 @@ public interface AuthService {
 
     ResponseUserToken refresh(String oldToken);
 
-    User getUserByToken(String token);
+    UserDetail getUserByToken(String token);
 }
