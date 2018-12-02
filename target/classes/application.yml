@@ -4,6 +4,9 @@ spring :
     username : root
     password : admin123!@#
     driverClassName : com.mysql.jdbc.Driver
+    platform: mysql
+    schema: classpath:/schema.sql
+    initialization-mode: always
 mybatis :
   config-location : classpath:/mybatis-config.xml
 # JWT
