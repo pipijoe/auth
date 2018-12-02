@@ -1,7 +1,7 @@
 package com.example.auth.demo.config;
 
 import com.example.auth.demo.domain.auth.UserDetail;
-import com.example.auth.demo.utils.JWTUtils;
+import com.example.auth.demo.utils.JwtUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +19,7 @@ import java.io.IOException;
 
 /**
  * token校验
- * Author: JoeTao
+ * @author: JoeTao
  * createAt: 2018/9/14
  */
 @Component
@@ -29,7 +29,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private String token_header;
 
     @Resource
-    private JWTUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {

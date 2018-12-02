@@ -5,13 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * 分页结果DO
+ * @author Joetao
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-/**
- * 分页结果DO
- */
 public class PageResult<T> {
     private int page;
     private int rows;

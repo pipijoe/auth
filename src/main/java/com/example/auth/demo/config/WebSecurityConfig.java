@@ -54,7 +54,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 使用BCrypt进行密码的hash
                 .passwordEncoder(passwordEncoder());
     }
-    // 装载BCrypt密码编码器
+
+    /**
+     * 装载BCrypt密码编码器
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -86,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web
                 .ignoring()
                 .antMatchers(
@@ -101,10 +105,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v2/**",
                         "/**/*.ttf"
                 );
-        web.ignoring().antMatchers("/v2/api-docs",//swagger api json
-                "/swagger-resources/configuration/ui",//用来获取支持的动作
-                "/swagger-resources",//用来获取api-docs的URI
-                "/swagger-resources/configuration/security",//安全选项
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/swagger-resources/configuration/ui",
+                "/swagger-resources",
+                "/swagger-resources/configuration/security",
                 "/swagger-ui.html"
         );
     }

@@ -1,10 +1,14 @@
 package com.example.auth.demo.domain;
 
 /**
- * 返回状态码
+ * @author Joetao
+ * 状态码
  * Created by jt on 2018/3/8.
  */
 public enum ResultCode {
+    /*
+    请求返回状态码和说明信息
+     */
     SUCCESS(200, "成功"),
 
     BAD_REQUEST(400, "参数或者语法不对"),

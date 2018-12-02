@@ -5,8 +5,9 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * @author Joetao
  * RESTful API 返回类型
- * Created by jt on 2018/3/8.
+ * Created at 2018/3/8.
  */
 @Data
 public class ResultJson<T> implements Serializable{

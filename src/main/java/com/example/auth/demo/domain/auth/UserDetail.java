@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Author: JoeTao
+ * @author : JoeTao
  * createAt: 2018/9/14
  */
 public class UserDetail implements UserDetails {
@@ -67,22 +67,33 @@ public class UserDetail implements UserDetails {
     public String getUsername() {
         return username;
     }
-    // 账户是否未过期
+
+    /**
+     * 账户是否未过期
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-    // 账户是否未锁定
+
+    /**
+     *  账户是否未锁定
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-    // 密码是否未过期
+    /**
+     * 密码是否未过期
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    // 账户是否激活
+
+    /**
+     * 账户是否激活
+     */
     @Override
     public boolean isEnabled() {
         return true;

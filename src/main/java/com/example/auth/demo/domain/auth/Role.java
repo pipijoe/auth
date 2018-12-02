@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * Author: JoeTao
+ * @author : JoeTao
  * createAt: 2018/9/17
  */
 @Data

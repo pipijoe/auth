@@ -16,11 +16,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Author: JoeTao
+ * @author: JoeTao
  * createAt: 2018/9/14
  */
 @Component
-public class JWTUtils {
+public class JwtUtils {
     public static final String ROLE_REFRESH_TOKEN = "ROLE_REFRESH_TOKEN";
 
     private static final String CLAIM_KEY_USER_ID = "user_id";
@@ -137,7 +137,7 @@ public class JWTUtils {
     public String generateRefreshToken(UserDetail userDetail) {
         Map<String, Object> claims = generateClaims(userDetail);
         // 只授于更新 token 的权限
-        String roles[] = new String[]{JWTUtils.ROLE_REFRESH_TOKEN};
+        String roles[] = new String[]{JwtUtils.ROLE_REFRESH_TOKEN};
         claims.put(CLAIM_KEY_AUTHORITIES, JSONUtil.toJSON(roles));
         return generateRefreshToken(userDetail.getUsername(), claims);
     }
@@ -183,7 +183,7 @@ public class JWTUtils {
     }
 
     private Map<String, Object> generateClaims(UserDetail userDetail) {
-        Map<String, Object> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>(16);
         claims.put(CLAIM_KEY_USER_ID, userDetail.getId());
         return claims;
     }

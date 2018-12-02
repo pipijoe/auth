@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Author: JoeTao
+ * @author JoeTao
  * createAt: 2018/9/17
  */
 

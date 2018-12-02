@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 
 /**
- * Author: JoeTao
+ * @author: JoeTao
  * createAt: 2018/9/20
  */
 @Component
@@ -26,7 +26,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         //验证为未登陆状态会进入此方法，认证错误
-//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "请登陆之后再进行操作");
         System.out.println("认证失败：" + authException.getMessage());
         response.setStatus(200);
         response.setCharacterEncoding("UTF-8");

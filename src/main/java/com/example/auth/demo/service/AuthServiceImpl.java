@@ -7,7 +7,7 @@ import com.example.auth.demo.domain.auth.Role;
 import com.example.auth.demo.domain.auth.UserDetail;
 import com.example.auth.demo.exception.CustomException;
 import com.example.auth.demo.mapper.AuthMapper;
-import com.example.auth.demo.utils.JWTUtils;
+import com.example.auth.demo.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,21 +24,21 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 /**
- * Author: JoeTao
+ * @author: JoeTao
  * createAt: 2018/9/17
  */
 @Service
 public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final JWTUtils jwtTokenUtil;
+    private final JwtUtils jwtTokenUtil;
     private final AuthMapper authMapper;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
     @Autowired
-    public AuthServiceImpl(AuthenticationManager authenticationManager, @Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService, JWTUtils jwtTokenUtil, AuthMapper authMapper) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, @Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService, JwtUtils jwtTokenUtil, AuthMapper authMapper) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtTokenUtil = jwtTokenUtil;
@@ -71,7 +71,6 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成token
         final UserDetail userDetail = (UserDetail) authentication.getPrincipal();
-//        UserDetail userDetail = (UserDetail) userDetailsService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateAccessToken(userDetail);
         //存储token
         jwtTokenUtil.putToken(username, token);

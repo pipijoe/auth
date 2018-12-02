@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Author: JoeTao
+ * @author: JoeTao
  * createAt: 2018/9/21
  */
 @Component("RestAuthenticationAccessDeniedHandler")

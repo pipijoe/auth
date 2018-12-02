@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 
 /**
  * 登陆身份认证
- * Author: JoeTao
+ * @author: JoeTao
  * createAt: 2018/9/14
  */
 @Component(value="CustomUserDetailsService")
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements UserDetailsService {
     private final AuthMapper authMapper;
 
-    public CustomUserDetailsService(AuthMapper authMapper) {
+    public CustomUserDetailsServiceImpl(AuthMapper authMapper) {
         this.authMapper = authMapper;
     }
 
