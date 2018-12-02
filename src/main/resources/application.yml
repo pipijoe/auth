@@ -1,8 +1,8 @@
 spring :
   datasource :
-    url : jdbc:mysql://localhost:3306/les_data_center?useUnicode=true&amp;characterEncoding=UTF-8&allowMultiQueries=true&useAffectedRows=true&useSSL=false
+    url : jdbc:mysql://localhost:3306/auth?useUnicode=true&amp;characterEncoding=UTF-8&allowMultiQueries=true&useAffectedRows=true&useSSL=false
     username : root
-    password : 123456
+    password : admin123!@#
     driverClassName : com.mysql.jdbc.Driver
 mybatis :
   config-location : classpath:/mybatis-config.xml

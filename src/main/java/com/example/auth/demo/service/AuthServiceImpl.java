@@ -49,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
     public UserDetail register(UserDetail userDetail) {
         final String username = userDetail.getUsername();
         if(authMapper.findByUsername(username)!=null) {
-            return null;
+            throw new CustomException(ResultJson.failure(ResultCode.BAD_REQUEST, "用户已存在"));
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         final String rawPassword = userDetail.getPassword();

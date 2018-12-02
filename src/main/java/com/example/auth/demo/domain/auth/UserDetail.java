@@ -1,6 +1,5 @@
 package com.example.auth.demo.domain.auth;
 
-import com.example.auth.demo.domain.auth.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -91,8 +90,7 @@ public class UserDetail implements UserDetails {
         return true;
     }
 
-    /**
-     * 账户是否激活
+    /** 账户是否激活
      */
     @Override
     public boolean isEnabled() {
