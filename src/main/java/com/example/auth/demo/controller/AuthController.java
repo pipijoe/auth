@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * @author JoeTao
@@ -41,7 +42,7 @@ public class AuthController {
     @PostMapping(value = "/login")
     @ApiOperation(value = "登陆", notes = "登陆成功返回token,测试管理员账号:admin,123456;用户账号：les123,admin")
     public ResultJson<ResponseUserToken> login(
-            @RequestBody User user){
+            @Valid @RequestBody User user){
         final ResponseUserToken response = authService.login(user.getName(), user.getPassword());
         return ResultJson.ok(response);
     }
