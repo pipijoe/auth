@@ -6,7 +6,7 @@ spring :
     driverClassName : com.mysql.jdbc.Driver
     platform: mysql
     schema: classpath:/schema.sql
-    initialization-mode: always
+    initialization-mode: embedded
 mybatis :
   config-location : classpath:/mybatis-config.xml
 # JWT

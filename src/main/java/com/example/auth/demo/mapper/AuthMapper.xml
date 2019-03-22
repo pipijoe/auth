@@ -8,7 +8,7 @@
     </select>
 
     <insert id="insert" parameterType="com.example.auth.demo.domain.auth.UserDetail" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_user (name, password) VALUES (#{userDetail.username}, #{userDetail.password});
+        insert into sys_user (name, password) VALUES (#{username}, #{password});
     </insert>
 
     <insert id="insertRole">

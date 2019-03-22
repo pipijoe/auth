@@ -11,10 +11,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.solr.common.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,7 @@ import javax.validation.Valid;
  */
 
 @RestController
-@Api(description = "登陆及刷新token")
+@Api(description = "登陆注册及刷新token")
 @RequestMapping("/api/v1")
 public class AuthController {
     @Value("${jwt.header}")
@@ -74,7 +73,7 @@ public class AuthController {
     @PostMapping(value = "/sign")
     @ApiOperation(value = "用户注册")
     public ResultJson sign(@RequestBody User user) {
-        if (org.apache.commons.lang3.StringUtils.isAnyBlank(user.getName(), user.getPassword())) {
+        if (StringUtils.isAnyBlank(user.getName(), user.getPassword())) {
             return ResultJson.failure(ResultCode.BAD_REQUEST);
         }
         UserDetail userDetail = new UserDetail(user.getName(), user.getPassword(), Role.builder().id(1l).build());

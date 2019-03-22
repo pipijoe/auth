@@ -22,7 +22,7 @@ public interface AuthMapper {
      * 创建新用户
      * @param userDetail
      */
-    void insert(@Param("userDetail") UserDetail userDetail);
+    void insert(UserDetail userDetail);
 
     /**
      * 创建用户角色
