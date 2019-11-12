@@ -39,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/login")
-    @ApiOperation(value = "登陆", notes = "登陆成功返回token,测试管理员账号:admin,123456;用户账号：les123,admin")
+    @ApiOperation(value = "登陆", notes = "登陆成功返回token,登陆之前请先注册账号")
     public ResultJson<ResponseUserToken> login(
             @Valid @RequestBody User user){
         final ResponseUserToken response = authService.login(user.getName(), user.getPassword());
