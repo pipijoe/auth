@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>demo</name>
-	<description>security and jwt for Spring Boot RESTful API</description>
+	<description>security and jwt for Spring Boot 11111111111RESTful API</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
